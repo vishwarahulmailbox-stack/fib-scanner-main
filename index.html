@@ -2,540 +2,518 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8"/>
-<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-<title>Fibonacci Scanner Report</title>
+<meta name="viewport" content="width=device-width,initial-scale=1"/>
+<title>Fibonacci Scanner — 14 Jun 2026, 05:04 PM IST</title>
 <style>
-  @import url('https://fonts.googleapis.com/css2?family=Space+Mono:wght@400;700&family=DM+Sans:wght@300;400;600;700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;600&display=swap');
+:root{
+  --bg:#f0f4f8;--surface:#ffffff;--card:#ffffff;--border:#e2e8ef;
+  --gold:#d97706;--gold-light:#fef3c7;--green:#16a34a;--green-light:#dcfce7;
+  --red:#dc2626;--red-light:#fee2e2;--blue:#2563eb;--blue-light:#dbeafe;
+  --teal:#0d9488;--teal-light:#ccfbf1;--text:#0f172a;--muted:#64748b;
+  --fvg:#7c3aed;--fvg-light:#ede9fe;
+  --shadow:0 1px 3px rgba(0,0,0,.08),0 1px 2px rgba(0,0,0,.06);
+  --shadow-md:0 4px 6px -1px rgba(0,0,0,.07),0 2px 4px -1px rgba(0,0,0,.05);
+}
+*{margin:0;padding:0;box-sizing:border-box}
+body{background:var(--bg);color:var(--text);font-family:'Inter',sans-serif;min-height:100vh;font-size:14px}
 
-  :root {
-    --bg:       #0a0e1a;
-    --surface:  #111827;
-    --card:     #1a2235;
-    --border:   #1e2d45;
-    --gold:     #f0b429;
-    --green:    #22c55e;
-    --red:      #ef4444;
-    --blue:     #3b82f6;
-    --teal:     #14b8a6;
-    --text:     #e2e8f0;
-    --muted:    #64748b;
-    --fvg:      #a78bfa;
-  }
+header{
+  background:linear-gradient(135deg,#1e3a5f 0%,#1e40af 50%,#0f172a 100%);
+  padding:2rem 2.5rem;position:relative;overflow:hidden;
+}
+header::before{
+  content:'';position:absolute;inset:0;
+  background:radial-gradient(ellipse at 20% 50%,rgba(253,224,71,.08) 0%,transparent 60%),
+             radial-gradient(ellipse at 80% 50%,rgba(147,197,253,.08) 0%,transparent 60%);
+}
+.hdr{max-width:1440px;margin:0 auto;position:relative;z-index:1;
+  display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:1.5rem}
+.hdr-left{display:flex;align-items:center;gap:1.2rem}
+.phi{
+  width:52px;height:52px;border-radius:14px;
+  background:linear-gradient(135deg,#fbbf24,#f59e0b);
+  display:flex;align-items:center;justify-content:center;
+  font-family:'JetBrains Mono',monospace;font-size:1.5rem;font-weight:600;color:#1c1917;
+  box-shadow:0 4px 20px rgba(251,191,36,.35);flex-shrink:0;
+}
+h1{font-size:1.35rem;font-weight:700;color:#fff;letter-spacing:-.02em}
+h1 span{color:#fcd34d}
+.sub{font-size:.7rem;color:rgba(255,255,255,.55);letter-spacing:.1em;text-transform:uppercase;margin-top:.25rem}
+.hdr-right{text-align:right;font-size:.75rem;color:rgba(255,255,255,.55);font-family:'JetBrains Mono',monospace;line-height:1.9}
+.hdr-right strong{color:#fcd34d;font-size:.92rem}
 
-  * { margin:0; padding:0; box-sizing:border-box; }
+.stats-wrap{background:var(--surface);border-bottom:1px solid var(--border);padding:1.25rem 2.5rem;box-shadow:var(--shadow)}
+.stats{max-width:1440px;margin:0 auto;display:flex;gap:.75rem;flex-wrap:wrap}
+.stat{
+  flex:1;min-width:130px;background:var(--bg);border:1px solid var(--border);
+  border-radius:12px;padding:.9rem 1.2rem;box-shadow:var(--shadow);
+}
+.stat .lbl{font-size:.65rem;text-transform:uppercase;letter-spacing:.1em;color:var(--muted);margin-bottom:.3rem;font-weight:500}
+.stat .val{font-family:'JetBrains Mono',monospace;font-size:1.75rem;font-weight:600}
+.stat.s-total .val{color:#1e40af}
+.stat.s-pass  .val{color:var(--green)}
+.stat.s-fail  .val{color:var(--red)}
+.stat.s-skip  .val{color:var(--muted)}
+.stat.s-fvg   .val{color:var(--fvg)}
 
-  body {
-    background: var(--bg);
-    color: var(--text);
-    font-family: 'DM Sans', sans-serif;
-    min-height: 100vh;
-  }
+main{max-width:1440px;margin:0 auto;padding:1.75rem 2.5rem 4rem}
 
-  /* ── HEADER ── */
-  header {
-    background: linear-gradient(135deg, #0f172a 0%, #1e1b4b 50%, #0f172a 100%);
-    border-bottom: 1px solid var(--border);
-    padding: 2.5rem 2rem 2rem;
-    position: relative;
-    overflow: hidden;
-  }
-  header::before {
-    content: '';
-    position: absolute; inset: 0;
-    background: radial-gradient(ellipse at 20% 50%, rgba(240,180,41,0.08) 0%, transparent 60%),
-                radial-gradient(ellipse at 80% 50%, rgba(99,102,241,0.08) 0%, transparent 60%);
-  }
-  .header-inner {
-    max-width: 1400px; margin: 0 auto;
-    position: relative; z-index: 1;
-    display: flex; align-items: flex-start; justify-content: space-between; flex-wrap: wrap; gap: 1.5rem;
-  }
-  .header-title { display: flex; align-items: center; gap: 1rem; }
-  .fib-icon {
-    width: 52px; height: 52px;
-    background: linear-gradient(135deg, var(--gold), #f59e0b);
-    border-radius: 12px;
-    display: flex; align-items: center; justify-content: center;
-    font-size: 1.5rem;
-    box-shadow: 0 0 30px rgba(240,180,41,0.3);
-  }
-  h1 {
-    font-family: 'Space Mono', monospace;
-    font-size: 1.5rem; font-weight: 700;
-    color: #fff; letter-spacing: -0.02em;
-  }
-  h1 span { color: var(--gold); }
-  .subtitle {
-    font-size: 0.8rem; color: var(--muted);
-    letter-spacing: 0.1em; text-transform: uppercase;
-    margin-top: 0.2rem;
-  }
-  .scan-meta {
-    text-align: right;
-    font-family: 'Space Mono', monospace;
-    font-size: 0.75rem; color: var(--muted);
-  }
-  .scan-meta strong { color: var(--gold); font-size: 0.9rem; }
+.strat-box{
+  background:var(--surface);border:1px solid var(--border);border-left:4px solid var(--gold);
+  border-radius:10px;padding:.9rem 1.2rem;margin-bottom:1.75rem;
+  font-size:.78rem;color:var(--muted);line-height:2;box-shadow:var(--shadow);
+}
+.strat-box b{color:var(--gold)}
+.strat-box span{color:var(--text)}
 
-  /* ── STATS BAR ── */
-  .stats-bar {
-    background: var(--surface);
-    border-bottom: 1px solid var(--border);
-    padding: 1.5rem 2rem;
-  }
-  .stats-inner {
-    max-width: 1400px; margin: 0 auto;
-    display: flex; gap: 1rem; flex-wrap: wrap;
-  }
-  .stat-card {
-    flex: 1; min-width: 140px;
-    background: var(--card);
-    border: 1px solid var(--border);
-    border-radius: 12px;
-    padding: 1rem 1.25rem;
-    display: flex; flex-direction: column; gap: 0.25rem;
-  }
-  .stat-card .label {
-    font-size: 0.7rem; text-transform: uppercase;
-    letter-spacing: 0.1em; color: var(--muted);
-  }
-  .stat-card .value {
-    font-family: 'Space Mono', monospace;
-    font-size: 1.8rem; font-weight: 700;
-  }
-  .stat-card.pass  .value { color: var(--green); }
-  .stat-card.fail  .value { color: var(--red); }
-  .stat-card.skip  .value { color: var(--muted); }
-  .stat-card.total .value { color: var(--gold); }
+.sec-title{
+  font-size:.75rem;text-transform:uppercase;letter-spacing:.12em;
+  color:#1e40af;margin-bottom:1rem;font-weight:600;
+  display:flex;align-items:center;gap:.75rem;
+}
+.sec-title::after{content:'';flex:1;height:1px;background:var(--border)}
 
-  /* ── LEGEND ── */
-  .legend {
-    max-width: 1400px; margin: 1.5rem auto 0;
-    padding: 0 2rem;
-    display: flex; gap: 1rem; flex-wrap: wrap;
-    font-size: 0.78rem; color: var(--muted);
-  }
-  .legend-item { display: flex; align-items: center; gap: 0.4rem; }
-  .legend-dot {
-    width: 8px; height: 8px; border-radius: 50%;
-  }
+.table-wrap{overflow-x:auto;border-radius:12px;border:1px solid var(--border);margin-bottom:2rem;box-shadow:var(--shadow-md);background:var(--surface)}
+table{width:100%;border-collapse:collapse}
+thead tr{background:#f8fafc;border-bottom:2px solid var(--border)}
+th{
+  padding:.8rem 1rem;text-align:left;font-size:.65rem;
+  text-transform:uppercase;letter-spacing:.08em;color:var(--muted);white-space:nowrap;font-weight:600;
+}
+tbody tr{border-bottom:1px solid var(--border);transition:background .1s}
+tbody tr:last-child{border-bottom:none}
+tbody tr:hover{background:#f8fafc}
+td{padding:.85rem 1rem;font-size:.84rem;white-space:nowrap}
 
-  /* ── MAIN CONTENT ── */
-  main { max-width: 1400px; margin: 0 auto; padding: 1.5rem 2rem 3rem; }
+.sym{font-family:'JetBrains Mono',monospace;font-weight:700;font-size:.88rem;color:#1e40af;letter-spacing:.04em}
+.mono{font-family:'JetBrains Mono',monospace;font-size:.82rem}
+.zone{color:var(--gold);font-weight:500}
+.green{color:var(--green);font-weight:500}
+.red{color:var(--red);font-weight:500}
+.teal{color:var(--teal);font-weight:500}
+.blue{color:var(--blue)}
+.rr{font-weight:700;color:#1e40af}
 
-  .section-title {
-    font-family: 'Space Mono', monospace;
-    font-size: 0.85rem; text-transform: uppercase;
-    letter-spacing: 0.1em; color: var(--gold);
-    margin-bottom: 1rem;
-    display: flex; align-items: center; gap: 0.75rem;
-  }
-  .section-title::after {
-    content: ''; flex: 1; height: 1px;
-    background: var(--border);
-  }
+.badge{display:inline-flex;align-items:center;gap:.25rem;padding:.2rem .6rem;border-radius:20px;font-size:.7rem;font-weight:600}
+.badge.fvg{background:var(--fvg-light);color:var(--fvg);border:1px solid rgba(124,58,237,.2)}
+.badge.no-fvg{color:var(--muted)}
 
-  /* ── TABLE ── */
-  .table-wrap {
-    overflow-x: auto;
-    border-radius: 12px;
-    border: 1px solid var(--border);
-    margin-bottom: 2.5rem;
-  }
-  table { width: 100%; border-collapse: collapse; }
-  thead tr {
-    background: var(--card);
-    border-bottom: 2px solid var(--border);
-  }
-  th {
-    padding: 0.85rem 1rem;
-    text-align: left;
-    font-family: 'Space Mono', monospace;
-    font-size: 0.68rem;
-    text-transform: uppercase; letter-spacing: 0.08em;
-    color: var(--muted); white-space: nowrap;
-  }
-  tbody tr {
-    border-bottom: 1px solid var(--border);
-    transition: background 0.15s;
-  }
-  tbody tr:last-child { border-bottom: none; }
-  tbody tr:hover { background: rgba(255,255,255,0.03); }
-  td {
-    padding: 0.9rem 1rem;
-    font-size: 0.875rem;
-    white-space: nowrap;
-  }
+.score{display:inline-flex;align-items:center;padding:.22rem .65rem;border-radius:20px;font-size:.7rem;font-weight:700}
+.score.strong{background:var(--gold-light);color:var(--gold);border:1px solid rgba(217,119,6,.25)}
+.score.good{background:var(--green-light);color:var(--green);border:1px solid rgba(22,163,74,.22)}
+.score.moderate{background:var(--blue-light);color:var(--blue);border:1px solid rgba(37,99,235,.22)}
 
-  .sym {
-    font-family: 'Space Mono', monospace;
-    font-weight: 700; font-size: 0.9rem;
-    color: #fff;
-    letter-spacing: 0.05em;
-  }
-  .zone  { color: var(--gold); font-family: 'Space Mono', monospace; font-size: 0.8rem; }
-  .tp    { color: var(--green); font-family: 'Space Mono', monospace; }
-  .tp2   { color: var(--teal);  font-family: 'Space Mono', monospace; }
-  .rr    {
-    font-family: 'Space Mono', monospace; font-weight: 700;
-    color: var(--blue);
-  }
+.fail-table tbody tr{opacity:.7}
+.fail-reason{color:var(--muted);font-size:.78rem}
 
-  .badge {
-    display: inline-flex; align-items: center; gap: 0.3rem;
-    padding: 0.2rem 0.6rem; border-radius: 20px;
-    font-size: 0.72rem; font-weight: 600; white-space: nowrap;
-  }
-  .badge.fvg {
-    background: rgba(167,139,250,0.15);
-    color: var(--fvg); border: 1px solid rgba(167,139,250,0.3);
-  }
-  .badge.no-fvg {
-    background: rgba(100,116,139,0.1);
-    color: var(--muted); border: 1px solid rgba(100,116,139,0.2);
-  }
+details summary{cursor:pointer;color:var(--muted);font-size:.82rem;padding:.6rem 0;outline:none;user-select:none;font-weight:500}
+details summary:hover{color:var(--text)}
 
-  .score {
-    display: inline-flex; align-items: center;
-    padding: 0.25rem 0.7rem; border-radius: 20px;
-    font-size: 0.72rem; font-weight: 700;
-  }
-  .score.strong {
-    background: rgba(240,180,41,0.15);
-    color: var(--gold); border: 1px solid rgba(240,180,41,0.3);
-  }
-  .score.good {
-    background: rgba(34,197,94,0.12);
-    color: var(--green); border: 1px solid rgba(34,197,94,0.25);
-  }
-  .score.moderate {
-    background: rgba(59,130,246,0.12);
-    color: var(--blue); border: 1px solid rgba(59,130,246,0.25);
-  }
+.no-results{
+  text-align:center;padding:4rem 2rem;color:var(--muted);
+  background:var(--surface);border-radius:12px;border:1px solid var(--border);box-shadow:var(--shadow);
+}
 
-  /* ── FAIL TABLE ── */
-  .fail-table tbody tr { opacity: 0.6; }
-  .fail-reason { color: var(--muted); font-size: 0.8rem; }
-
-  /* ── FOOTER ── */
-  .footer {
-    text-align: center; padding: 2rem;
-    color: var(--muted); font-size: 0.75rem;
-    border-top: 1px solid var(--border);
-    max-width: 1400px; margin: 0 auto;
-  }
-  .footer strong { color: var(--red); }
-
-  /* ── NO RESULTS ── */
-  .no-results {
-    text-align: center; padding: 3rem;
-    color: var(--muted); font-family: 'Space Mono', monospace;
-  }
-
-  /* ── STRATEGY BOX ── */
-  .strategy-box {
-    background: var(--card);
-    border: 1px solid var(--border);
-    border-left: 3px solid var(--gold);
-    border-radius: 8px;
-    padding: 1rem 1.25rem;
-    margin-bottom: 2rem;
-    font-size: 0.8rem;
-    color: var(--muted);
-    line-height: 1.8;
-  }
-  .strategy-box span { color: var(--text); }
+footer{
+  text-align:center;padding:1.5rem 2rem;color:var(--muted);font-size:.72rem;
+  border-top:1px solid var(--border);max-width:1440px;margin:0 auto;line-height:2;
+}
 </style>
 </head>
 <body>
 
-<!-- HEADER -->
 <header>
-  <div class="header-inner">
-    <div class="header-title">
-      <div class="fib-icon">φ</div>
+  <div class="hdr">
+    <div class="hdr-left">
+      <div class="phi">φ</div>
       <div>
         <h1>Fibonacci <span>Scanner</span></h1>
-        <p class="subtitle">61%–79% Entry Zone · FVG Confluence · SMC Strategy</p>
+        <p class="sub">61%–79% Entry Zone · FVG Confluence · SMC Strategy · NSE</p>
       </div>
     </div>
-    <div class="scan-meta">
-      <div>Scanned <strong>519</strong> symbols</div>
-      <div style="margin-top:0.3rem">14 Jun 2026, 03:24 PM</div>
-      <div style="margin-top:0.2rem">Daily Timeframe · 6 Month Data</div>
+    <div class="hdr-right">
+      <div>Scanned <strong>504</strong> NSE symbols</div>
+      <div>14 Jun 2026, 05:04 PM IST</div>
+      <div>Daily (1D) · 6 Month Data · Min R:R 2:1</div>
     </div>
   </div>
 </header>
 
-<!-- STATS BAR -->
-<div class="stats-bar">
-  <div class="stats-inner">
-    <div class="stat-card total">
-      <span class="label">Total Scanned</span>
-      <span class="value">519</span>
-    </div>
-    <div class="stat-card pass">
-      <span class="label">✅ Passed (All Conditions)</span>
-      <span class="value">0</span>
-    </div>
-    <div class="stat-card fail">
-      <span class="label">❌ Did Not Qualify</span>
-      <span class="value">517</span>
-    </div>
-    <div class="stat-card skip">
-      <span class="label">⚠️ Skipped / Error</span>
-      <span class="value">2</span>
-    </div>
-    <div class="stat-card" style="border-color: rgba(167,139,250,0.3);">
-      <span class="label" style="color:var(--fvg)">FVG Confluence</span>
-      <span class="value" style="color:var(--fvg)">0</span>
+<div class="stats-wrap">
+  <div class="stats">
+    <div class="stat s-total"><div class="lbl">Total Scanned</div><div class="val">504</div></div>
+    <div class="stat s-pass"> <div class="lbl">✅ Passed</div>    <div class="val">0</div></div>
+    <div class="stat s-fail"> <div class="lbl">❌ Rejected</div>  <div class="val">500</div></div>
+    <div class="stat s-skip"> <div class="lbl">⚠️ Skipped</div>  <div class="val">4</div></div>
+    <div class="stat s-fvg"  style="border-color:rgba(124,58,237,.2)">
+      <div class="lbl" style="color:var(--fvg)">✦ With FVG</div>
+      <div class="val">0</div>
     </div>
   </div>
 </div>
 
 <main>
-
-  <!-- STRATEGY REMINDER -->
-  <div class="strategy-box">
-    <b style="color:var(--gold)">Strategy Logic: </b>
-    <span>Uptrend (HH+HL) </span> → <span>Swing Low→High identified </span> →
-    <span>Price in 61%–79% Fib Zone </span> → <span>FVG overlap (bonus) </span> →
-    <span>Bullish PA confirmation (Hammer / Engulfing / Pin Bar) </span> →
-    <span>R:R ≥ 2:1 </span> → <span style="color:var(--green)">LONG ENTRY</span>
-    &nbsp;&nbsp;|&nbsp;&nbsp;
-    <b style="color:var(--muted)">SL:</b> <span>Below Swing Low</span> &nbsp;
-    <b style="color:var(--green)">TP1:</b> <span>0% (Swing High)</span> &nbsp;
-    <b style="color:var(--teal)">TP2:</b> <span>-27% Extension</span>
+  <div class="strat-box">
+    <b>Strategy: </b>
+    <span>Uptrend (HH+HL) </span>→
+    <span> Swing Low→High </span>→
+    <span> Price in 61–79% Fib Zone </span>→
+    <span> FVG overlap (bonus) </span>→
+    <span> Hammer / Engulfing / Pin Bar </span>→
+    <span> R:R ≥ 2:1 </span>→
+    <span style="color:var(--green);font-weight:600"> LONG ENTRY</span>
+    &nbsp;|&nbsp;
+    <b>SL:</b> <span> Below Swing Low</span>
+    &nbsp;<b>TP1:</b> <span>0% (Swing High)</span>
+    &nbsp;<b>TP2:</b> <span>−27% Extension</span>
   </div>
 
-  <!-- PASSED STOCKS -->
-  <p class="section-title">🎯 Shortlisted Stocks — 0 Found</p>
+  <p class="sec-title">🎯 Shortlisted Stocks — 0 Passed All Conditions</p>
+  
+    <div class="no-results">
+      <div style="font-size:2rem;margin-bottom:1rem">🔍</div>
+      No stocks passed all conditions today.<br>
+      <span style="font-size:0.8rem;color:#64748b">Markets change daily — try again tomorrow.</span>
+    </div>
 
-  <div class="no-results">No stocks passed all conditions. Try scanning again tomorrow — markets change daily.</div>
-
-  <!-- FAILED STOCKS (collapsed) -->
-  <details style="margin-bottom:2rem">
-    <summary style="cursor:pointer; color:var(--muted); font-size:0.85rem; padding:0.5rem 0; outline:none;">
-      📋 View Rejected Stocks (517) — click to expand
-    </summary>
-    <div class="table-wrap" style="margin-top:1rem">
+  <details>
+    <summary>📋 Rejected Stocks (500) — click to expand</summary>
+    <div class="table-wrap" style="margin-top:.75rem">
       <table class="fail-table">
-        <thead>
-          <tr><th>Symbol</th><th colspan="2">Reason Failed</th></tr>
-        </thead>
+        <thead><tr><th>Symbol</th><th>Reason</th></tr></thead>
         <tbody>
         <tr>
-          <td class="sym">RELIANCE</td>
-          <td colspan="2" class="fail-reason">No uptrend (No HH | No HL | Below MA20)</td>
-        </tr>
-        <tr>
-          <td class="sym">TCS</td>
-          <td colspan="2" class="fail-reason">No uptrend (No HH | No HL | Below MA20)</td>
-        </tr>
-        <tr>
-          <td class="sym">HDFCBANK</td>
-          <td colspan="2" class="fail-reason">No uptrend (No HH | No HL)</td>
-        </tr>
-        <tr>
-          <td class="sym">BHARTIARTL</td>
-          <td colspan="2" class="fail-reason">No uptrend (Below MA20)</td>
-        </tr>
-        <tr>
-          <td class="sym">ICICIBANK</td>
-          <td colspan="2" class="fail-reason">No uptrend (No HH | No HL)</td>
-        </tr>
-        <tr>
-          <td class="sym">ABB</td>
-          <td colspan="2" class="fail-reason">No uptrend (No HH | Below MA20)</td>
-        </tr>
-        <tr>
-          <td class="sym">TITAN</td>
-          <td colspan="2" class="fail-reason">No uptrend (No HH | No HL)</td>
-        </tr>
-        <tr>
-          <td class="sym">TRENT</td>
-          <td colspan="2" class="fail-reason">No uptrend (No HH | No HL | Below MA20)</td>
-        </tr>
-        <tr>
-          <td class="sym">WIPRO</td>
-          <td colspan="2" class="fail-reason">No uptrend (No HL | Below MA20)</td>
-        </tr>
-        <tr>
-          <td class="sym">ONGC</td>
-          <td colspan="2" class="fail-reason">No uptrend (No HH | No HL | Below MA20)</td>
-        </tr>
-        <tr>
-          <td class="sym">BAJFINANCE</td>
-          <td colspan="2" class="fail-reason">No uptrend (No HH | No HL)</td>
-        </tr>
-        <tr>
-          <td class="sym">AXISBANK</td>
-          <td colspan="2" class="fail-reason">No uptrend (No HH | No HL)</td>
-        </tr>
-        <tr>
-          <td class="sym">KOTAKBANK</td>
-          <td colspan="2" class="fail-reason">Price 403.3 not in zone (357.9–368.5)</td>
-        </tr>
-        <tr>
-          <td class="sym">LT</td>
-          <td colspan="2" class="fail-reason">Price 4049.3 not in zone (3439.4–3596.3)</td>
-        </tr>
-        <tr>
-          <td class="sym">BAJAJ-AUTO</td>
-          <td colspan="2" class="fail-reason">No uptrend (Below MA20)</td>
-        </tr>
-        <tr>
-          <td class="sym">SBIN</td>
-          <td colspan="2" class="fail-reason">No uptrend (No HH | No HL)</td>
-        </tr>
-        <tr>
-          <td class="sym">BPCL</td>
-          <td colspan="2" class="fail-reason">No uptrend (No HH | No HL)</td>
-        </tr>
-        <tr>
           <td class="sym">360ONE</td>
-          <td colspan="2" class="fail-reason">Price 1096.8 not in zone (953.6–998.8)</td>
+          <td class="fail-reason">Price ₹1096.8 not in zone (₹953.6–₹998.8)</td>
         </tr>
         <tr>
           <td class="sym">3MINDIA</td>
-          <td colspan="2" class="fail-reason">No uptrend (No HL | Below MA20)</td>
+          <td class="fail-reason">No uptrend (No HL | Below MA20)</td>
         </tr>
         <tr>
           <td class="sym">ABB</td>
-          <td colspan="2" class="fail-reason">No uptrend (No HH | Below MA20)</td>
+          <td class="fail-reason">No uptrend (No HH | Below MA20)</td>
         </tr>
         <tr>
           <td class="sym">ACC</td>
-          <td colspan="2" class="fail-reason">No uptrend (No HH | No HL | Below MA20)</td>
+          <td class="fail-reason">No uptrend (No HH | No HL | Below MA20)</td>
         </tr>
         <tr>
           <td class="sym">ACMESOLAR</td>
-          <td colspan="2" class="fail-reason">No uptrend (No HL)</td>
+          <td class="fail-reason">No uptrend (No HL)</td>
         </tr>
         <tr>
           <td class="sym">AIAENG</td>
-          <td colspan="2" class="fail-reason">Price 4333.7 not in zone (3572.4–3846.4)</td>
+          <td class="fail-reason">Price ₹4333.7 not in zone (₹3572.4–₹3846.4)</td>
         </tr>
         <tr>
           <td class="sym">APLAPOLLO</td>
-          <td colspan="2" class="fail-reason">No uptrend (No HH | No HL | Below MA20)</td>
+          <td class="fail-reason">No uptrend (No HH | No HL | Below MA20)</td>
         </tr>
         <tr>
           <td class="sym">AUBANK</td>
-          <td colspan="2" class="fail-reason">No uptrend (No HH | No HL)</td>
+          <td class="fail-reason">No uptrend (No HH | No HL)</td>
         </tr>
         <tr>
           <td class="sym">AWL</td>
-          <td colspan="2" class="fail-reason">No uptrend (No HH | Below MA20)</td>
+          <td class="fail-reason">No uptrend (No HH | Below MA20)</td>
         </tr>
         <tr>
           <td class="sym">AADHARHFC</td>
-          <td colspan="2" class="fail-reason">No uptrend (No HH | No HL)</td>
+          <td class="fail-reason">No uptrend (No HH | No HL)</td>
         </tr>
         <tr>
           <td class="sym">AARTIIND</td>
-          <td colspan="2" class="fail-reason">No uptrend (No HH | No HL | Below MA20)</td>
+          <td class="fail-reason">No uptrend (No HH | No HL | Below MA20)</td>
         </tr>
         <tr>
           <td class="sym">AAVAS</td>
-          <td colspan="2" class="fail-reason">No uptrend (No HH | No HL)</td>
+          <td class="fail-reason">No uptrend (No HH | No HL)</td>
         </tr>
         <tr>
           <td class="sym">ABBOTINDIA</td>
-          <td colspan="2" class="fail-reason">No uptrend (Below MA20)</td>
+          <td class="fail-reason">No uptrend (Below MA20)</td>
         </tr>
         <tr>
           <td class="sym">ACE</td>
-          <td colspan="2" class="fail-reason">No uptrend (No HH)</td>
+          <td class="fail-reason">No uptrend (No HH)</td>
         </tr>
         <tr>
           <td class="sym">ACUTAAS</td>
-          <td colspan="2" class="fail-reason">Price 3145.3 not in zone (2352.3–2601.1)</td>
+          <td class="fail-reason">Price ₹3145.3 not in zone (₹2352.3–₹2601.1)</td>
         </tr>
         <tr>
           <td class="sym">ADANIENSOL</td>
-          <td colspan="2" class="fail-reason">Price 1489.6 not in zone (1052.6–1180.7)</td>
+          <td class="fail-reason">Price ₹1489.6 not in zone (₹1052.6–₹1180.7)</td>
         </tr>
         <tr>
           <td class="sym">ADANIENT</td>
-          <td colspan="2" class="fail-reason">Price 2921.6 not in zone (2026.5–2261.6)</td>
+          <td class="fail-reason">Price ₹2921.6 not in zone (₹2026.5–₹2261.6)</td>
         </tr>
         <tr>
           <td class="sym">ADANIGREEN</td>
-          <td colspan="2" class="fail-reason">Price 1485.7 not in zone (957.5–1091.3)</td>
+          <td class="fail-reason">Price ₹1485.7 not in zone (₹957.5–₹1091.3)</td>
         </tr>
         <tr>
           <td class="sym">ADANIPORTS</td>
-          <td colspan="2" class="fail-reason">Price 1812.9 not in zone (1406.1–1507.2)</td>
+          <td class="fail-reason">Price ₹1812.9 not in zone (₹1406.1–₹1507.2)</td>
         </tr>
         <tr>
           <td class="sym">ADANIPOWER</td>
-          <td colspan="2" class="fail-reason">No uptrend (Below MA20)</td>
+          <td class="fail-reason">No uptrend (Below MA20)</td>
         </tr>
         <tr>
           <td class="sym">ATGL</td>
-          <td colspan="2" class="fail-reason">Price 728.5 not in zone (546.0–617.4)</td>
+          <td class="fail-reason">Price ₹728.5 not in zone (₹546.0–₹617.4)</td>
         </tr>
         <tr>
           <td class="sym">ABCAPITAL</td>
-          <td colspan="2" class="fail-reason">No uptrend (No HH | No HL)</td>
+          <td class="fail-reason">No uptrend (No HH | No HL)</td>
         </tr>
         <tr>
           <td class="sym">ABFRL</td>
-          <td colspan="2" class="fail-reason">No uptrend (No HH | No HL | Below MA20)</td>
+          <td class="fail-reason">No uptrend (No HH | No HL | Below MA20)</td>
         </tr>
         <tr>
           <td class="sym">ABLBL</td>
-          <td colspan="2" class="fail-reason">No uptrend (No HH | No HL | Below MA20)</td>
+          <td class="fail-reason">No uptrend (No HH | No HL | Below MA20)</td>
         </tr>
         <tr>
           <td class="sym">ABREL</td>
-          <td colspan="2" class="fail-reason">No uptrend (No HH | No HL | Below MA20)</td>
+          <td class="fail-reason">No uptrend (No HH | No HL | Below MA20)</td>
         </tr>
         <tr>
           <td class="sym">ABSLAMC</td>
-          <td colspan="2" class="fail-reason">No uptrend (No HH | No HL)</td>
+          <td class="fail-reason">No uptrend (No HH | No HL)</td>
         </tr>
         <tr>
           <td class="sym">CPPLUS</td>
-          <td colspan="2" class="fail-reason">Price 3375.9 not in zone (2002.9–2392.8)</td>
+          <td class="fail-reason">Price ₹3375.9 not in zone (₹2002.9–₹2392.8)</td>
         </tr>
         <tr>
           <td class="sym">AEGISLOG</td>
-          <td colspan="2" class="fail-reason">Price 944.4 not in zone (660.2–732.2)</td>
+          <td class="fail-reason">Price ₹944.4 not in zone (₹660.2–₹732.2)</td>
         </tr>
         <tr>
           <td class="sym">AEGISVOPAK</td>
-          <td colspan="2" class="fail-reason">No uptrend (No HH | No HL)</td>
+          <td class="fail-reason">No uptrend (No HH | No HL)</td>
         </tr>
         <tr>
           <td class="sym">AFCONS</td>
-          <td colspan="2" class="fail-reason">No uptrend (No HH | No HL)</td>
+          <td class="fail-reason">No uptrend (No HH | No HL)</td>
         </tr>
         <tr>
           <td class="sym">AFFLE</td>
-          <td colspan="2" class="fail-reason">No uptrend (No HH | Below MA20)</td>
+          <td class="fail-reason">No uptrend (No HH | Below MA20)</td>
         </tr>
         <tr>
           <td class="sym">AJANTPHARM</td>
-          <td colspan="2" class="fail-reason">Price 3131.0 not in zone (2826.4–2937.7)</td>
+          <td class="fail-reason">Price ₹3131.0 not in zone (₹2826.4–₹2937.7)</td>
         </tr>
         <tr>
           <td class="sym">ALKEM</td>
-          <td colspan="2" class="fail-reason">No uptrend (No HL | Below MA20)</td>
+          <td class="fail-reason">No uptrend (No HL | Below MA20)</td>
+        </tr>
+        <tr>
+          <td class="sym">ABDL</td>
+          <td class="fail-reason">No uptrend (No HL)</td>
+        </tr>
+        <tr>
+          <td class="sym">ARE&M</td>
+          <td class="fail-reason">No uptrend (No HH | Below MA20)</td>
+        </tr>
+        <tr>
+          <td class="sym">AMBER</td>
+          <td class="fail-reason">No uptrend (No HH | No HL | Below MA20)</td>
+        </tr>
+        <tr>
+          <td class="sym">AMBUJACEM</td>
+          <td class="fail-reason">No uptrend (No HH | No HL | Below MA20)</td>
+        </tr>
+        <tr>
+          <td class="sym">ANANDRATHI</td>
+          <td class="fail-reason">No uptrend (No HH | No HL | Below MA20)</td>
+        </tr>
+        <tr>
+          <td class="sym">ANANTRAJ</td>
+          <td class="fail-reason">Price ₹534.8 not in zone (₹444.1–₹479.4)</td>
+        </tr>
+        <tr>
+          <td class="sym">ANGELONE</td>
+          <td class="fail-reason">Price ₹339.5 not in zone (₹237.3–₹263.2)</td>
+        </tr>
+        <tr>
+          <td class="sym">ANTHEM</td>
+          <td class="fail-reason">No uptrend (No HH)</td>
+        </tr>
+        <tr>
+          <td class="sym">ANURAS</td>
+          <td class="fail-reason">No uptrend (No HH | No HL | Below MA20)</td>
+        </tr>
+        <tr>
+          <td class="sym">APARINDS</td>
+          <td class="fail-reason">Price ₹15221.0 not in zone (₹10217.6–₹11384.8)</td>
+        </tr>
+        <tr>
+          <td class="sym">APOLLOHOSP</td>
+          <td class="fail-reason">Price ₹8498.0 not in zone (₹7404.2–₹7682.2)</td>
+        </tr>
+        <tr>
+          <td class="sym">APOLLOTYRE</td>
+          <td class="fail-reason">No uptrend (No HH | No HL)</td>
+        </tr>
+        <tr>
+          <td class="sym">APTUS</td>
+          <td class="fail-reason">No uptrend (No HH)</td>
+        </tr>
+        <tr>
+          <td class="sym">ASAHIINDIA</td>
+          <td class="fail-reason">No uptrend (No HL)</td>
+        </tr>
+        <tr>
+          <td class="sym">ASHOKLEY</td>
+          <td class="fail-reason">No uptrend (No HH | No HL)</td>
+        </tr>
+        <tr>
+          <td class="sym">ASIANPAINT</td>
+          <td class="fail-reason">Price ₹2747.4 not in zone (₹2254.4–₹2373.9)</td>
+        </tr>
+        <tr>
+          <td class="sym">ASTERDM</td>
+          <td class="fail-reason">Price ₹815.0 not in zone (₹650.6–₹692.9)</td>
+        </tr>
+        <tr>
+          <td class="sym">ASTRAL</td>
+          <td class="fail-reason">No uptrend (No HH | No HL | Below MA20)</td>
+        </tr>
+        <tr>
+          <td class="sym">ATHERENERG</td>
+          <td class="fail-reason">Price ₹1028.7 not in zone (₹759.7–₹830.2)</td>
+        </tr>
+        <tr>
+          <td class="sym">ATUL</td>
+          <td class="fail-reason">No uptrend (No HH | No HL | Below MA20)</td>
+        </tr>
+        <tr>
+          <td class="sym">AUROPHARMA</td>
+          <td class="fail-reason">Price ₹1472.8 not in zone (₹1228.7–₹1301.9)</td>
+        </tr>
+        <tr>
+          <td class="sym">AIIL</td>
+          <td class="fail-reason">No uptrend (No HL)</td>
+        </tr>
+        <tr>
+          <td class="sym">DMART</td>
+          <td class="fail-reason">No uptrend (No HH | No HL | Below MA20)</td>
+        </tr>
+        <tr>
+          <td class="sym">AXISBANK</td>
+          <td class="fail-reason">No uptrend (No HH | No HL)</td>
+        </tr>
+        <tr>
+          <td class="sym">BEML</td>
+          <td class="fail-reason">No uptrend (No HH | No HL | Below MA20)</td>
+        </tr>
+        <tr>
+          <td class="sym">BLS</td>
+          <td class="fail-reason">No uptrend (No HH | No HL | Below MA20)</td>
+        </tr>
+        <tr>
+          <td class="sym">BSE</td>
+          <td class="fail-reason">No uptrend (Below MA20)</td>
+        </tr>
+        <tr>
+          <td class="sym">BAJAJ-AUTO</td>
+          <td class="fail-reason">No uptrend (Below MA20)</td>
+        </tr>
+        <tr>
+          <td class="sym">BAJFINANCE</td>
+          <td class="fail-reason">No uptrend (No HH | No HL)</td>
+        </tr>
+        <tr>
+          <td class="sym">BAJAJFINSV</td>
+          <td class="fail-reason">No uptrend (No HH | No HL | Below MA20)</td>
+        </tr>
+        <tr>
+          <td class="sym">BAJAJHLDNG</td>
+          <td class="fail-reason">No uptrend (No HL | Below MA20)</td>
+        </tr>
+        <tr>
+          <td class="sym">BAJAJHFL</td>
+          <td class="fail-reason">No uptrend (No HH | No HL)</td>
+        </tr>
+        <tr>
+          <td class="sym">BALKRISIND</td>
+          <td class="fail-reason">No uptrend (No HH | No HL | Below MA20)</td>
+        </tr>
+        <tr>
+          <td class="sym">BALRAMCHIN</td>
+          <td class="fail-reason">Price ₹540.0 not in zone (₹468.3–₹490.0)</td>
+        </tr>
+        <tr>
+          <td class="sym">BANDHANBNK</td>
+          <td class="fail-reason">No uptrend (No HH)</td>
+        </tr>
+        <tr>
+          <td class="sym">BANKBARODA</td>
+          <td class="fail-reason">No uptrend (No HH | No HL)</td>
+        </tr>
+        <tr>
+          <td class="sym">BANKINDIA</td>
+          <td class="fail-reason">No uptrend (No HH | No HL)</td>
+        </tr>
+        <tr>
+          <td class="sym">MAHABANK</td>
+          <td class="fail-reason">Price ₹87.3 not in zone (₹65.9–₹70.8)</td>
+        </tr>
+        <tr>
+          <td class="sym">BATAINDIA</td>
+          <td class="fail-reason">No uptrend (No HH | No HL | Below MA20)</td>
+        </tr>
+        <tr>
+          <td class="sym">BAYERCROP</td>
+          <td class="fail-reason">No uptrend (No HH | No HL | Below MA20)</td>
+        </tr>
+        <tr>
+          <td class="sym">BELRISE</td>
+          <td class="fail-reason">No uptrend (No HL)</td>
+        </tr>
+        <tr>
+          <td class="sym">BERGEPAINT</td>
+          <td class="fail-reason">No uptrend (No HH)</td>
+        </tr>
+        <tr>
+          <td class="sym">BDL</td>
+          <td class="fail-reason">No uptrend (No HH | No HL | Below MA20)</td>
+        </tr>
+        <tr>
+          <td class="sym">BEL</td>
+          <td class="fail-reason">No uptrend (No HH | No HL | Below MA20)</td>
+        </tr>
+        <tr>
+          <td class="sym">BHARATFORG</td>
+          <td class="fail-reason">No uptrend (No HH)</td>
+        </tr>
+        <tr>
+          <td class="sym">BHEL</td>
+          <td class="fail-reason">No uptrend (Below MA20)</td>
+        </tr>
+        <tr>
+          <td class="sym">BPCL</td>
+          <td class="fail-reason">No uptrend (No HH | No HL)</td>
         </tr></tbody>
       </table>
     </div>
   </details>
-
 </main>
 
-<div class="footer">
-  <strong>⚠️ DISCLAIMER:</strong> This report is for <strong>educational purposes only</strong>.
-  It is not financial advice. Trading involves significant risk.
-  Always do your own research and consult a financial advisor before trading.
-  Past performance does not guarantee future results.
-</div>
+<footer>
+  ⚠️ <strong style="color:#dc2626">DISCLAIMER:</strong>
+  This report is for <strong style="color:#dc2626">educational purposes only</strong> and is NOT financial advice.<br>
+  Trading in equity markets involves significant risk of loss.
+  Always consult a SEBI-registered financial advisor before taking any trade.
+</footer>
 
 </body>
 </html>

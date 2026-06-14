@@ -495,7 +495,7 @@ def main():
     html      = generate_html(passed, failed, skipped, scan_time, total)
 
     with open(OUTPUT_FILE, "w", encoding="utf-8") as f:
-        f.write(html)s
+        f.write(html)
 
     print("\n" + "=" * 62)
     print(f"  SCAN COMPLETE  —  {scan_time}")
