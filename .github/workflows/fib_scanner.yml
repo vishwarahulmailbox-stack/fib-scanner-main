@@ -2,9 +2,7 @@ name: FIB Scanner
 
 on:
   schedule: 
-    - cron: '30 5 * * 1-5'    # 02:00 PM IST  Mon-Fri
-
-  # Manual run button bhi hoga GitHub pe
+    - cron: '30 5 * * 1-5'    # 11:00 AM IST  Mon-Fri
   workflow_dispatch:
 
 jobs:
@@ -29,11 +27,10 @@ jobs:
       - name: Run FIB Scanner
         run: python fib_scanner.py
 
-      - name: Commit docs to main
+      - name: Commit index.html to main
         run: |
           git config user.name "github-actions[bot]"
           git config user.email "github-actions[bot]@users.noreply.github.com"
-          git add docs/
-          git commit -m "FIB Scanner update — ${{ github.run_number }}"
+          git add index.html fib_report.html
+          git diff --staged --quiet || git commit -m "FIB Scanner update — ${{ github.run_number }}"
           git push origin main
-          
